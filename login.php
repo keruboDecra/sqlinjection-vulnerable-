@@ -1,35 +1,44 @@
+
 <?php
 session_start();
+
 
 $servername = "localhost";
 $username = "root";
 $password = "";  // No password for the root user
 $dbname = "sqlproject";
 
+
 $conn = new mysqli($servername, $username, $password, $dbname);
+
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
 $loginStatus = ""; // Initialize the login status variable
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // Use prepared statements to prevent SQL injection
-    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-    $stmt = $conn->prepare($sql);
 
-    // Bind parameters
-    $stmt->bind_param("ss", $username, $password);
+    // Vulnerable to SQL injection (for educational purposes)
+    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    die($sql);
 
-    // Execute the query
-    $stmt->execute();
 
-    // Store the result
-    $result = $stmt->get_result();
+    $result = $conn->query($sql);
+
+
+    if (!$result) {
+        die("Query failed: " . $conn->error);
+    }
+
+
+
 
     if ($result && $result->num_rows > 0) {
         $_SESSION['login_success'] = true;
@@ -38,15 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $loginStatus = "Login failed! Invalid credentials.";
     }
-
-    // Close the statement
-    $stmt->close();
 }
+
 
 $conn->close();
 ?>
-
-
 
 
 <!-- login.html -->
