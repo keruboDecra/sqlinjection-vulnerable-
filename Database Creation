@@ -1,0 +1,31 @@
+pyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+MariaDB [(none)]>
+MariaDB [(none)]> CREATE DATABASE sqlproject;
+Query OK, 1 row affected (0.006 sec)
+MariaDB [(none)]> USE sqlproject;
+Database changed
+MariaDB [sqlproject]> CREATE TABLE users (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     username VARCHAR(255) NOT NULL,
+    ->     password VARCHAR(255) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.086 sec)
+
+
+MariaDB [sqlproject]> INSERT INTO users (username, password) VALUES ('sqltester', 'sqltester');
+Query OK, 1 row affected (0.018 sec)
+
+
+MariaDB [sqlproject]> SELECT * FROM users;
++----+-----------+-----------+
+| id | username  | password  |
++----+-----------+-----------+
+|  1 | sqltester | sqltester |
++----+-----------+-----------+
+1 row in set (0.001 sec)
+
+
+MariaDB [sqlproject]>
+
+
